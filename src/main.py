@@ -83,6 +83,17 @@ def query_desempenho():
     return df
 desempenho_grafico = query_desempenho()
 
+@st.cache_data(ttl=600)
+def query_gols_por_jogador():
+    client = get_bigquery_client()
+    query = """
+        SELECT *
+        FROM `projeto-copa-500721.copa.vw_jogadores-por-gols`
+    """
+    df = client.query(query).to_dataframe()
+    return df
+gols_por_jogador_grafico = query_gols_por_jogador()
+
 # INTERFACE
 # =========
 
@@ -146,3 +157,17 @@ fig_desempenho.update_xaxes(
     tick0=1930
 )
 st.plotly_chart(fig_desempenho, use_container_width=True)
+
+# Gols por jogador
+fig_gols_por_jogador = px.bar(
+    gols_por_jogador_grafico, 
+    x="nome", 
+    y="gols", 
+    title="Gols por jogador",
+    labels={
+        "nome": "Nome",
+        "gols": "Gols"
+    },
+    text_auto=True)
+fig_gols_por_jogador.update_traces(marker_color='green')
+st.plotly_chart(fig_gols_por_jogador, use_container_width=True)
