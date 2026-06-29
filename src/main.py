@@ -130,8 +130,10 @@ fig_desempenho = px.line(
     desempenho_grafico, 
     x="tournament_name", 
     y="count_matches", 
-    title="Quantidade de classificações por país",
+    title="Desempenho do Brasil por Copa",
     labels={
         "tournament_name": "Copa",
         "count_matches": "Nº de partidas"
     })
+fig_desempenho.update_traces(line_color='green')
+st.plotly_chart(fig_desempenho, use_container_width=True)
