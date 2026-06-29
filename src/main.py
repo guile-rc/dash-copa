@@ -188,7 +188,7 @@ fig_gols_e_partidas_por_jogador = px.scatter(
     gols_e_partidas_por_jogador_grafico, 
     x="partidas", 
     y="gols", 
-    text="nome",         
+    hover_name="nome",         
     title='Desempenho dos Jogadores do Brasil (Copas 2018 e 2022)',
     labels={
         "partidas": "Partidas",
