@@ -43,6 +43,7 @@ def query_gols_por_time():
     query = """
         SELECT *
         FROM `projeto-copa-500721.copa.vw_gols-por-time`
+        LIMIT 10
     """
     df = client.query(query).to_dataframe()
     return df
@@ -71,6 +72,15 @@ with col3:
     st.metric(label="Partidas disputadas", value=partidas_disputadas_formatado)
 
 
-fig = px.bar(gols_por_time_grafico, x="player_team_name", y="gols", title="Gols por time", text_auto=True)
+fig = px.bar(
+    gols_por_time_grafico, 
+    x="player_team_name", 
+    y="gols", 
+    title="Gols por time",
+    labels={
+        "player_team_name": "Time",
+        "gols": "Gols"
+    },
+    text_auto=True)
 fig.update_traces(marker_color='green')
 st.plotly_chart(fig, use_container_width=True)
