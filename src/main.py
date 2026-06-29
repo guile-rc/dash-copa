@@ -55,7 +55,6 @@ def query_gols_por_time():
     query = """
         SELECT *
         FROM `projeto-copa-500721.copa.vw_gols-por-time`
-        LIMIT 10
     """
     df = client.query(query).to_dataframe()
     return df
@@ -67,7 +66,6 @@ def query_classificacoes():
     query = """
         SELECT *
         FROM `projeto-copa-500721.copa.vw_times-classificados`
-        LIMIT 10
     """
     df = client.query(query).to_dataframe()
     return df
@@ -132,13 +130,24 @@ with col_metric_2:
 with col_metric_3: 
     st.metric(label="Partidas disputadas", value=partidas_disputadas_formatado)
 
+# Filtro de países
+filtro_paises = st.slider(
+    "Quantidade de países", 
+    min_value=3, 
+    max_value=20, 
+    value=10
+)
+
+gols_por_time_grafico_filtrado = gols_por_time_grafico.sort_values(by="gols", ascending=False).head(filtro_paises)
+classificacoes_grafico_filtrado = classificacoes_grafico.sort_values(by="classificacoes", ascending=False).head(filtro_paises)
+
 
 col_plot_1, col_plot_2 = st.columns(2)
 
 with col_plot_1:
     # Gols por time
     fig_gols = px.bar(
-        gols_por_time_grafico, 
+        gols_por_time_grafico_filtrado, 
         x="player_team_name", 
         y="gols", 
         title="Gols por time",
@@ -152,7 +161,7 @@ with col_plot_1:
 with col_plot_2:
     # Quantidade de classificações por país
     fig_classificacoes = px.bar(
-        classificacoes_grafico, 
+        classificacoes_grafico_filtrado, 
         x="team_name",
         y="classificacoes", 
         title="Quantidade de classificações por país",
@@ -187,7 +196,7 @@ fig_desempenho = px.line(
     desempenho_grafico_filtrado, 
     x="year", 
     y="count_matches",
-    title="Desempenho do Brasil por Copa",
+    title="Partidas jogadas pelo Brasil por Copa",
     labels={
         "year": "Copa",
         "count_matches": "Nº de partidas"
