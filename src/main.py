@@ -165,8 +165,26 @@ with col_plot_2:
     st.plotly_chart(fig_classificacoes, use_container_width=True)
 
 # Desempenho
+#   Filtro
+ano_min = int(desempenho_grafico["year"].min())
+ano_max = int(desempenho_grafico["year"].max())
+
+anos_selecionados = st.slider(
+    "Selecione o período das Copas:",
+    min_value=ano_min,
+    max_value=ano_max,
+    value=(ano_min, ano_max), # Valor inicial (todo o período)
+    step=4 # Avança de 4 em 4 anos
+)
+
+desempenho_grafico_filtrado = desempenho_grafico[
+    (desempenho_grafico["year"] >= anos_selecionados[0]) & 
+    (desempenho_grafico["year"] <= anos_selecionados[1])
+]
+
+#   Gráfico
 fig_desempenho = px.line(
-    desempenho_grafico, 
+    desempenho_grafico_filtrado, 
     x="year", 
     y="count_matches",
     title="Desempenho do Brasil por Copa",
