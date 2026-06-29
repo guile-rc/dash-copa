@@ -108,13 +108,14 @@ gols_e_partidas_por_jogador_grafico = query_gols_e_partidas_por_jogador()
 
 ruido_forca = 0.15
 
-df_jogadores = query_gols_e_partidas_por_jogador()
+gols_e_partidas_por_jogador_grafico["gols"] = gols_e_partidas_por_jogador_grafico["gols"].astype(float)
+gols_e_partidas_por_jogador_grafico["partidas"] = gols_e_partidas_por_jogador_grafico["partidas"].astype(float)
 
-df_jogadores["gols_ruido"] = df_jogadores["gols"] + np.random.uniform(
-    -ruido_forca, ruido_forca, len(df_jogadores)
+gols_e_partidas_por_jogador_grafico["gols_ruido"] = gols_e_partidas_por_jogador_grafico["gols"] + np.random.uniform(
+    -ruido_forca, ruido_forca, len(gols_e_partidas_por_jogador_grafico)
 )
-df_jogadores["partidas_ruido"] = df_jogadores["partidas"] + np.random.uniform(
-    -ruido_forca, ruido_forca, len(df_jogadores)
+gols_e_partidas_por_jogador_grafico["partidas_ruido"] = gols_e_partidas_por_jogador_grafico["partidas"] + np.random.uniform(
+    -ruido_forca, ruido_forca, len(gols_e_partidas_por_jogador_grafico)
 )
 
 # INTERFACE
