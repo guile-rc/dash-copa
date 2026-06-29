@@ -179,7 +179,7 @@ ano_min = int(desempenho_grafico["year"].min())
 ano_max = int(desempenho_grafico["year"].max())
 
 anos_selecionados = st.slider(
-    "Selecione o período das Copas:",
+    "Copas do mundo",
     min_value=ano_min,
     max_value=ano_max,
     value=(ano_min, ano_max), # Valor inicial (todo o período)
