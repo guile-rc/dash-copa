@@ -8,6 +8,7 @@ def get_bigquery_client():
     return bigquery.Client.from_service_account_info(credentials_info)
 
 # Queries para o Google Cloud
+# Indicadores
 
 @st.cache_data(ttl=600)
 def query_media_gols():
@@ -36,10 +37,19 @@ def query_partidas_disputadas():
         return 0
     return df[df.columns[0]].iloc[0]
 
+media_gols_valor = query_media_gols()
+porcentagem_nao_perdido_valor = query_porcentagem_nao_perdido()
+partidas_disputadas_valor = query_partidas_disputadas()
+
+media_gols_formatado = f"{media_gols_valor:.2f}"
+porcentagem_nao_perdido_formatado = f"{porcentagem_nao_perdido_valor}%" 
+partidas_disputadas_formatado = f"{partidas_disputadas_valor}"
+
+# Gráficos
+
 @st.cache_data(ttl=600)
 def query_gols_por_time():
     client = get_bigquery_client()
-    # Uma query de exemplo que traz o ano e a quantidade de gols
     query = """
         SELECT *
         FROM `projeto-copa-500721.copa.vw_gols-por-time`
@@ -48,15 +58,20 @@ def query_gols_por_time():
     df = client.query(query).to_dataframe()
     return df
 
-media_gols_valor = query_media_gols()
-porcentagem_nao_perdido_valor = query_porcentagem_nao_perdido()
-partidas_disputadas_valor = query_partidas_disputadas()
-
 gols_por_time_grafico = query_gols_por_time()
 
-media_gols_formatado = f"{media_gols_valor:.2f}"
-porcentagem_nao_perdido_formatado = f"{porcentagem_nao_perdido_valor}%" 
-partidas_disputadas_formatado = f"{partidas_disputadas_valor}"
+@st.cache_data(ttl=600)
+def query_classificacoes():
+    client = get_bigquery_client()
+    query = """
+        SELECT *
+        FROM `projeto-copa-500721.copa.vw_times-classificados`
+        LIMIT 10
+    """
+    df = client.query(query).to_dataframe()
+    return df
+
+classificacoes_grafico = query_classificacoes()
 
 # Interface
 
@@ -72,7 +87,7 @@ with col3:
     st.metric(label="Partidas disputadas", value=partidas_disputadas_formatado)
 
 
-fig = px.bar(
+fig_gols = px.bar(
     gols_por_time_grafico, 
     x="player_team_name", 
     y="gols", 
@@ -82,5 +97,18 @@ fig = px.bar(
         "gols": "Gols"
     },
     text_auto=True)
-fig.update_traces(marker_color='green')
+fig_gols.update_traces(marker_color='green')
+st.plotly_chart(fig, use_container_width=True)
+
+fig_classificacoes = px.bar(
+    classificacoes_grafico, 
+    x="team_name", 
+    y="classificacoes", 
+    title="Quantidade de classificações por país",
+    labels={
+        "team_name": "Time",
+        "classificacoes": "Classificações"
+    },
+    text_auto=True)
+fig_classificacoes.update_traces(marker_color='green')
 st.plotly_chart(fig, use_container_width=True)
