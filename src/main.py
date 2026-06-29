@@ -185,7 +185,7 @@ st.plotly_chart(fig_gols_por_jogador, use_container_width=True)
 
 # Gols e partidas por jogador
 fig_gols_e_partidas_por_jogador = px.scatter(
-    df, 
+    gols_e_partidas_por_jogador_grafico, 
     x="partidas", 
     y="gols", 
     text="nome",         
