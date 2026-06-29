@@ -237,8 +237,8 @@ fig_gols_e_partidas_por_jogador = px.scatter(
     },    
     title='Desempenho dos jogadores (Copas 2018 e 2022)',
     labels={
-        "partidas": "Partidas",
-        "gols": "Gols"
+        "partidas_ruido": "Partidas",
+        "gols_ruido": "Gols"
     },
     size="gols",                
     color="gols",               
