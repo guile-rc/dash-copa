@@ -128,21 +128,21 @@ with col_plot_2:
         text_auto=True)
     fig_classificacoes.update_traces(marker_color='green')
     st.plotly_chart(fig_classificacoes, use_container_width=True)
-with col_plot_2:
-    # Desempenho
-    fig_desempenho = px.line(
-        desempenho_grafico, 
-        x="year", 
-        y="count_matches",
-        title="Desempenho do Brasil por Copa",
-        labels={
-            "year": "Copa",
-            "count_matches": "Nº de partidas"
-        })
-    fig_desempenho.update_traces(line_color='green')
-    fig_desempenho.update_xaxes(
-        tickmode="linear",
-        dtick=8,
-        tick0=1930
-    )
-    st.plotly_chart(fig_desempenho, use_container_width=True)
+
+# Desempenho
+fig_desempenho = px.line(
+    desempenho_grafico, 
+    x="year", 
+    y="count_matches",
+    title="Desempenho do Brasil por Copa",
+    labels={
+        "year": "Copa",
+        "count_matches": "Nº de partidas"
+    })
+fig_desempenho.update_traces(line_color='green')
+fig_desempenho.update_xaxes(
+    tickmode="linear",
+    dtick=8,
+    tick0=1930
+)
+st.plotly_chart(fig_desempenho, use_container_width=True)
