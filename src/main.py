@@ -134,5 +134,4 @@ fig_desempenho = px.line(
     labels={
         "tournament_name": "Copa",
         "count_matches": "Nº de partidas"
-    },
-    text_auto=True)
+    })
