@@ -76,7 +76,7 @@ classificacoes_grafico = query_classificacoes()
 def query_desempenho():
     client = get_bigquery_client()
     query = """
-        SELECT tournament_name, count_matches
+        SELECT year, count_matches
         FROM `projeto-copa-500721.copa.vw_desempenho-brasil`
     """
     df = client.query(query).to_dataframe()
@@ -128,11 +128,11 @@ st.plotly_chart(fig_classificacoes, use_container_width=True)
 # Desempenho
 fig_desempenho = px.line(
     desempenho_grafico, 
-    x="tournament_name", 
+    x="year", 
     y="count_matches", 
     title="Desempenho do Brasil por Copa",
     labels={
-        "tournament_name": "Copa",
+        "year": "Copa",
         "count_matches": "Nº de partidas"
     })
 fig_desempenho.update_traces(line_color='green')
