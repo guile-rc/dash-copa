@@ -138,6 +138,6 @@ fig_desempenho = px.line(
 fig_desempenho.update_traces(line_color='green')
 fig_desempenho.update_xaxes(
     tickmode="linear",
-    dtick=2
+    dtick=8
 )
 st.plotly_chart(fig_desempenho, use_container_width=True)
