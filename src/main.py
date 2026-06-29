@@ -88,57 +88,61 @@ desempenho_grafico = query_desempenho()
 
 st.header("Indicadores do Brasil") 
 
-col1, col2, col3 = st.columns(3)
+col_metric_1, col_metric_2, col_metric_3 = st.columns(3)
 
-with col1: 
+with col_metric_1: 
     st.metric(label="Média de gols", value=media_gols_formatado) 
-with col2: 
+with col_metric_2: 
     st.metric(label="% de jogos sem derrotas", value=porcentagem_nao_perdido_formatado) 
-with col3: 
+with col_metric_3: 
     st.metric(label="Partidas disputadas", value=partidas_disputadas_formatado)
 
-# Gols por time
-fig_gols = px.bar(
-    gols_por_time_grafico, 
-    x="player_team_name", 
-    y="gols", 
-    title="Gols por time",
-    labels={
-        "player_team_name": "Time",
-        "gols": "Gols"
-    },
-    text_auto=True)
-fig_gols.update_traces(marker_color='green')
-st.plotly_chart(fig_gols, use_container_width=True)
 
-# Quantidade de classificações por país
-fig_classificacoes = px.bar(
-    classificacoes_grafico, 
-    x="team_name", 
-    y="classificacoes", 
-    title="Quantidade de classificações por país",
-    labels={
-        "team_name": "Time",
-        "classificacoes": "Classificações"
-    },
-    text_auto=True)
-fig_classificacoes.update_traces(marker_color='green')
-st.plotly_chart(fig_classificacoes, use_container_width=True)
+col_plot_1, col_plot_2 = st.columns(2)
 
-# Desempenho
-fig_desempenho = px.line(
-    desempenho_grafico, 
-    x="year", 
-    y="count_matches",
-    title="Desempenho do Brasil por Copa",
-    labels={
-        "year": "Copa",
-        "count_matches": "Nº de partidas"
-    })
-fig_desempenho.update_traces(line_color='green')
-fig_desempenho.update_xaxes(
-    tickmode="linear",
-    dtick=8,
-    tick0=1930
-)
-st.plotly_chart(fig_desempenho, use_container_width=True)
+with col_plot_1:
+    # Gols por time
+    fig_gols = px.bar(
+        gols_por_time_grafico, 
+        x="player_team_name", 
+        y="gols", 
+        title="Gols por time",
+        labels={
+            "player_team_name": "Time",
+            "gols": "Gols"
+        },
+        text_auto=True)
+    fig_gols.update_traces(marker_color='green')
+    st.plotly_chart(fig_gols, use_container_width=True)
+with col_plot_2:
+    # Quantidade de classificações por país
+    fig_classificacoes = px.bar(
+        classificacoes_grafico, 
+        x="team_name", 
+        y="classificacoes", 
+        title="Quantidade de classificações por país",
+        labels={
+            "team_name": "Time",
+            "classificacoes": "Classificações"
+        },
+        text_auto=True)
+    fig_classificacoes.update_traces(marker_color='green')
+    st.plotly_chart(fig_classificacoes, use_container_width=True)
+with col_plot_2:
+    # Desempenho
+    fig_desempenho = px.line(
+        desempenho_grafico, 
+        x="year", 
+        y="count_matches",
+        title="Desempenho do Brasil por Copa",
+        labels={
+            "year": "Copa",
+            "count_matches": "Nº de partidas"
+        })
+    fig_desempenho.update_traces(line_color='green')
+    fig_desempenho.update_xaxes(
+        tickmode="linear",
+        dtick=8,
+        tick0=1930
+    )
+    st.plotly_chart(fig_desempenho, use_container_width=True)
