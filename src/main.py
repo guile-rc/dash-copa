@@ -7,7 +7,8 @@ def get_bigquery_client():
     credentials_info = st.secrets["gcp_service_account"]
     return bigquery.Client.from_service_account_info(credentials_info)
 
-# Queries para o Google Cloud
+# QUERIES PARA O GOOGLE CLOUD
+# ===========================
 # Indicadores
 
 @st.cache_data(ttl=600)
@@ -57,7 +58,6 @@ def query_gols_por_time():
     """
     df = client.query(query).to_dataframe()
     return df
-
 gols_por_time_grafico = query_gols_por_time()
 
 @st.cache_data(ttl=600)
@@ -70,10 +70,21 @@ def query_classificacoes():
     """
     df = client.query(query).to_dataframe()
     return df
-
 classificacoes_grafico = query_classificacoes()
 
-# Interface
+@st.cache_data(ttl=600)
+def query_desempenho():
+    client = get_bigquery_client()
+    query = """
+        SELECT tournament_name, count_matches
+        FROM `projeto-copa-500721.copa.vw_desempenho-brasil`
+    """
+    df = client.query(query).to_dataframe()
+    return df
+desempenho_grafico = query_desempenho()
+
+# INTERFACE
+# =========
 
 st.header("Indicadores do Brasil") 
 
@@ -86,7 +97,7 @@ with col2:
 with col3: 
     st.metric(label="Partidas disputadas", value=partidas_disputadas_formatado)
 
-
+# Gols por time
 fig_gols = px.bar(
     gols_por_time_grafico, 
     x="player_team_name", 
@@ -100,6 +111,7 @@ fig_gols = px.bar(
 fig_gols.update_traces(marker_color='green')
 st.plotly_chart(fig_gols, use_container_width=True)
 
+# Quantidade de classificações por país
 fig_classificacoes = px.bar(
     classificacoes_grafico, 
     x="team_name", 
@@ -112,3 +124,15 @@ fig_classificacoes = px.bar(
     text_auto=True)
 fig_classificacoes.update_traces(marker_color='green')
 st.plotly_chart(fig_classificacoes, use_container_width=True)
+
+# Desempenho
+fig_desempenho = px.line(
+    desempenho_grafico, 
+    x="tournament_name", 
+    y="count_matches", 
+    title="Quantidade de classificações por país",
+    labels={
+        "tournament_name": "Copa",
+        "count_matches": "Nº de partidas"
+    },
+    text_auto=True)
