@@ -94,6 +94,17 @@ def query_gols_por_jogador():
     return df
 gols_por_jogador_grafico = query_gols_por_jogador()
 
+@st.cache_data(ttl=600)
+def query_gols_e_partidas_por_jogador():
+    client = get_bigquery_client()
+    query = """
+        SELECT *
+        FROM `projeto-copa-500721.copa.vw_gols-e-partidas-por-jogador`
+    """
+    df = client.query(query).to_dataframe()
+    return df
+gols_e_partidas_por_jogador_grafico = query_gols_e_partidas_por_jogador()
+
 # INTERFACE
 # =========
 
@@ -171,3 +182,20 @@ fig_gols_por_jogador = px.bar(
     text_auto=True)
 fig_gols_por_jogador.update_traces(marker_color='green')
 st.plotly_chart(fig_gols_por_jogador, use_container_width=True)
+
+# Gols e partidas por jogador
+fig_gols_e_partidas_por_jogador = px.scatter(
+    df, 
+    x="partidas", 
+    y="gols", 
+    text="nome",         
+    title='Desempenho dos Jogadores do Brasil (Copas 2018 e 2022)',
+    labels={
+        "partidas": "Partidas",
+        "gols": "Gols"
+    },
+    size="gols",                
+    color="gols",               
+    color_continuous_scale='Viridis'
+)
+st.plotly_chart(fig_gols_e_partidas_por_jogador, use_container_width=True)
