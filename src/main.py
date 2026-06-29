@@ -105,6 +105,15 @@ def query_gols_e_partidas_por_jogador():
     return df
 gols_e_partidas_por_jogador_grafico = query_gols_e_partidas_por_jogador()
 
+ruido_forca = 0.15
+
+df_players["gols_ruido"] = df_players["gols"] + np.random.uniform(
+    -ruido_forca, ruido_forca, len(df_players)
+)
+df_players["partidas_ruido"] = df_players["partidas"] + np.random.uniform(
+    -ruido_forca, ruido_forca, len(df_players)
+)
+
 # INTERFACE
 # =========
 
@@ -140,7 +149,7 @@ with col_plot_2:
     # Quantidade de classificações por país
     fig_classificacoes = px.bar(
         classificacoes_grafico, 
-        x="team_name", 
+        x="team_name",
         y="classificacoes", 
         title="Quantidade de classificações por país",
         labels={
@@ -174,7 +183,7 @@ fig_gols_por_jogador = px.bar(
     gols_por_jogador_grafico, 
     x="nome", 
     y="gols", 
-    title="Gols por jogador",
+    title="Gols por jogador (Copas 2018 e 2022)",
     labels={
         "nome": "Nome",
         "gols": "Gols"
@@ -186,10 +195,16 @@ st.plotly_chart(fig_gols_por_jogador, use_container_width=True)
 # Gols e partidas por jogador
 fig_gols_e_partidas_por_jogador = px.scatter(
     gols_e_partidas_por_jogador_grafico, 
-    x="partidas", 
-    y="gols", 
-    hover_name="nome",         
-    title='Desempenho dos Jogadores do Brasil (Copas 2018 e 2022)',
+    x="partidas_ruido", 
+    y="gols_ruido", 
+    hover_name="nome",     
+    hover_data={
+        "gols": True,
+        "partidas": True,
+        "gols_ruido": False,
+        "partidas_ruido": False,
+    },    
+    title='Desempenho dos Jogadores (Copas 2018 e 2022)',
     labels={
         "partidas": "Partidas",
         "gols": "Gols"
