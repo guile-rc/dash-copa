@@ -130,12 +130,14 @@ fig_desempenho = px.line(
     desempenho_grafico, 
     x="year", 
     y="count_matches",
-    tickmode='linear',
-    dtick=2,
     title="Desempenho do Brasil por Copa",
     labels={
         "year": "Copa",
         "count_matches": "Nº de partidas"
     })
 fig_desempenho.update_traces(line_color='green')
+fig_desempenho.update_xaxes(
+    tickmode="linear",
+    dtick=2
+)
 st.plotly_chart(fig_desempenho, use_container_width=True)
