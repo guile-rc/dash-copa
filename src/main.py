@@ -129,7 +129,9 @@ st.plotly_chart(fig_classificacoes, use_container_width=True)
 fig_desempenho = px.line(
     desempenho_grafico, 
     x="year", 
-    y="count_matches", 
+    y="count_matches",
+    tickmode='linear',
+    dtick=2,
     title="Desempenho do Brasil por Copa",
     labels={
         "year": "Copa",
