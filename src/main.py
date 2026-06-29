@@ -2,6 +2,7 @@ import streamlit as st
 from google.cloud import bigquery
 import pandas as pd
 import plotly.express as px
+import numpy as np
 
 def get_bigquery_client():
     credentials_info = st.secrets["gcp_service_account"]

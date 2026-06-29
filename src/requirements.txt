@@ -1,5 +1,6 @@
 db-dtypes
 google-cloud-bigquery
+numpy
 pandas
 pillow
 plotly
