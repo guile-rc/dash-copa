@@ -198,7 +198,7 @@ fig_gols_e_partidas_por_jogador = px.scatter(
     color="gols",               
     color_continuous_scale='Viridis'
 )
-fig.update_layout(
+fig_gols_por_jogador.update_layout(
     xaxis=dict(tickmode='linear', tick0=0, dtick=1),
     yaxis=dict(tickmode='linear', tick0=0, dtick=1)
 )
