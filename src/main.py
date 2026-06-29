@@ -130,6 +130,8 @@ with col_metric_2:
 with col_metric_3: 
     st.metric(label="Partidas disputadas", value=partidas_disputadas_formatado)
 
+st.header("Gráficos") 
+
 # Filtro de países
 filtro_paises = st.slider(
     "Quantidade de países", 
