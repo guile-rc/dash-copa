@@ -98,7 +98,7 @@ fig_gols = px.bar(
     },
     text_auto=True)
 fig_gols.update_traces(marker_color='green')
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig_gols, use_container_width=True)
 
 fig_classificacoes = px.bar(
     classificacoes_grafico, 
@@ -111,4 +111,4 @@ fig_classificacoes = px.bar(
     },
     text_auto=True)
 fig_classificacoes.update_traces(marker_color='green')
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig_classificacoes, use_container_width=True)
