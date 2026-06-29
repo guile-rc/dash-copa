@@ -198,4 +198,8 @@ fig_gols_e_partidas_por_jogador = px.scatter(
     color="gols",               
     color_continuous_scale='Viridis'
 )
+fig.update_layout(
+    xaxis=dict(tickmode='linear', tick0=0, dtick=1),
+    yaxis=dict(tickmode='linear', tick0=0, dtick=1)
+)
 st.plotly_chart(fig_gols_e_partidas_por_jogador, use_container_width=True)
